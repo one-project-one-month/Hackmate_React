@@ -1,15 +1,30 @@
-import { useState } from 'react'; 
-import * as Checkbox from '@radix-ui/react-checkbox';
-import * as Label from '@radix-ui/react-label';
-import * as Form from '@radix-ui/react-form';
-import { Check, Eye, EyeOff, Github, AlertCircle } from 'lucide-react'; 
+import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff, Github, AlertCircle } from 'lucide-react';
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const LoginStep = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      remember: false,
+    },
+  });
 
   return (
     <div className="w-full max-w-md p-8 bg-[#1c1c1e] border border-gray-800 shadow-2xl rounded-2xl">
@@ -22,84 +37,92 @@ const LoginStep = () => {
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-2 mb-4 text-red-500">
+      <div className="flex items-center justify-center gap-2 mb-4 text-red-500 py-2 ">
         <AlertCircle size={18} />
         <span className="text-sm font-medium">Email has not been found</span>
       </div>
 
-      <Form.Root className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-        {/* Email Field */}
-        <Form.Field name="email" className="space-y-2">
-          <div className="flex items-baseline justify-between">
-            <Form.Label asChild>
-              <Label.Root className="text-sm font-medium text-gray-300 ml-1">
-                Email
-              </Label.Root>
-            </Form.Label>
-          </div>
-          <Form.Control asChild>
-            <input
-              type="email"
-              placeholder="aye50677@gmail.com"
-              className="w-full px-4 py-3 rounded-xl bg-[#2c2c2e] border border-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all placeholder:text-gray-500"
-            />
-          </Form.Control>
-        </Form.Field>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(() => {})} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-gray-300 ml-1">Email</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="aye50677@gmail.com" 
+                    className="bg-[#2c2c2e] border-zinc-600 text-gray-200 rounded-lg h-12 focus-visible:ring-cyan-500/50" 
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-gray-300 ml-1">Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input 
+                      type={showPassword ? "text" : "password"}
+                      placeholder=". . . . . . . " 
+                      className="bg-[#2c2c2e] border-zinc-600 text-gray-200 rounded-lg h-12 focus-visible:ring-cyan-500/50" 
+                      {...field} 
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 cursor-pointer"
+                    >
+                      {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Form.Field name="password" style={{ marginTop: '1.5rem' }}>
-          <Form.Label asChild>
-            <Label.Root className="text-sm font-medium text-gray-300 ml-1 block mb-2">
-              Password
-            </Label.Root>
-          </Form.Label>
-          <div className="relative">
-            <Form.Control asChild>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder='. . . . . . . '
-                className="w-full px-4 py-3 rounded-xl bg-[#2c2c2e] border border-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="remember" 
+                className="border-zinc-600 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
               />
-            </Form.Control>
-            <button 
+              <Label htmlFor="remember" className="text-gray-400 text-sm cursor-pointer font-normal">
+                Remember me
+              </Label>
+            </div>
+            <a href="#" className="text-cyan-500 hover:text-cyan-400 text-sm font-medium transition-colors">
+              Forgot Password?
+            </a>
+          </div>
+
+          <div className="space-y-8 pt-2 mt-6">
+            <Button 
+              type="submit" 
+              className="w-full bg-[#0097b2] hover:bg-[#00869d] text-white text-xl font-normal rounded-lg h-12 shadow-lg shadow-cyan-900/20 cursor-pointer"
+            >
+              Sign in
+            </Button>
+
+            <Button 
               type="button" 
-              onClick={togglePasswordVisibility}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors cursor-pointer"
+              variant="outline" 
+              className="w-full border-zinc-600 text-gray-200 bg-transparent hover:bg-gray-600 hover:text-gray-200 rounded-lg h-12 flex items-center justify-center gap-2 cursor-pointer"
             >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </button>
+              <Github size={20} />
+              Sign in with github
+            </Button>
           </div>
-        </Form.Field>
-        
-        <div className="flex items-center justify-between text-xs sm:text-sm">
-          <div className="flex items-center gap-2">
-            <Checkbox.Root
-              id="remember"
-              className="flex h-5 w-5 appearance-none items-center justify-center rounded bg-[#2c2c2e] border border-gray-700 outline-none focus:ring-2 focus:ring-cyan-500"
-            >
-              <Checkbox.Indicator className="text-cyan-400">
-                <Check size={14} strokeWidth={3} />
-              </Checkbox.Indicator>
-            </Checkbox.Root>
-            <Label.Root htmlFor="remember" className="text-gray-400 cursor-pointer">
-              Remember me
-            </Label.Root>
-          </div>
-          <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
-            Forgot Password?
-          </a>
-        </div>
-
-        <Form.Submit asChild>
-          <button className="w-full py-3 px-4 bg-[#0097b2] hover:bg-[#00869d] text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-900/20 cursor-pointer">
-            Sign in
-          </button>
-        </Form.Submit>
-
-        <button className="w-full py-3 px-4 bg-transparent border border-gray-700 hover:bg-gray-800 text-gray-200 font-medium rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer">
-          <Github size={20} />
-          Sign in with github
-        </button>
-      </Form.Root>
+        </form>
+      </Form>
 
       <p className="mt-8 text-center text-sm text-gray-400">
         Don't have an account?{' '}
