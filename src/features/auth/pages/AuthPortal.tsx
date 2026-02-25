@@ -18,17 +18,19 @@ const AuthPortal = () => {
 
   return (
     <Dialog open={true}>
-      <DialogContent>
-        {step === "login" && <LoginStep />}
-        {step === "signUpMethod" && <SignUpStep />}
-        {step === "emailVerification" && <EmailVerificationStep />}
-        {step === "accountInfo" && <AccountInfoStep />}
-        {step === "avatar" && <AvatarStep />}
-        {step === "nameRole" && <NameRoleStep />}
-        {step === "techStack" && <TechStackStep />}
-        {step === "forgotPassword" && <ForgotPasswordStep />}
-        {step === "otpVerification" && <OTPVerificationStep />}
-        {step === "resetPassword" && <ResetPasswordStep />}
+      <DialogContent className="sm:max-w-150 sm:max-h-150 aspect-square p-8 md:p-0 rounded-2xl md:rounded-full bg-zinc-600 backdrop-blur-2xl border-none flex justify-center items-center">
+        <div className="aspect-square flex justify-center items-center">
+          {step === "login" && <LoginStep />}
+          {step === "signUpMethod" && <SignUpStep />}
+          {step === "emailVerification" && <EmailVerificationStep />}
+          {step === "accountInfo" && <AccountInfoStep />}
+          {step === "avatar" && <AvatarStep />}
+          {step === "nameRole" && <NameRoleStep />}
+          {step === "techStack" && <TechStackStep />}
+          {step === "forgotPassword" && <ForgotPasswordStep />}
+          {step === "otpVerification" && <OTPVerificationStep />}
+          {step === "resetPassword" && <ResetPasswordStep />}
+        </div>
       </DialogContent>
     </Dialog>
   );
