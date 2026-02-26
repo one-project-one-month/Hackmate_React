@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    step: "login",
+    step: "accountInfo",
     isOpen: false,
     data: {},
   },
