@@ -36,6 +36,7 @@ const AccountInfoStep = () => {
   return (
     <div className="w-full bg-transparent">
        {/* Step Indicator */}
+       {/* Dynamic Step Indicator will be implemented later*/}
       <div className="flex justify-center mb-6">
         <div className="flex gap-3 w-70">
           <div className="h-1 flex-1 bg-cyan-500 rounded-full" />
@@ -69,7 +70,7 @@ const AccountInfoStep = () => {
           className="space-y-4 max-w-xs m-auto"
         >
           {/* Email */}
-          {/* real validation rules will be implement later */}
+          {/* real validation rules will be implemented later */}
           <FormField
             control={form.control}
             name="email"
@@ -91,7 +92,7 @@ const AccountInfoStep = () => {
           />
 
           {/* Password */}
-          {/* real validation rules will be implement later */}
+          {/* real validation rules will be implemented later */}
           <FormField
             control={form.control}
             name="password"
@@ -127,7 +128,7 @@ const AccountInfoStep = () => {
           />
 
           {/* Confirm Password */}
-          {/* real validation rules will be implement later */}
+          {/* real validation rules will be implemented later */}
           <FormField
             control={form.control}
             name="confirmPassword"
@@ -170,6 +171,13 @@ const AccountInfoStep = () => {
           </Button>
         </form>
       </Form>
+    
+      <p className="mt-5 text-center text-sm text-gray-400">
+        Already have an account?{" "}
+        <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
+          Sign in here
+        </a>
+      </p>
     </div>
   );
 };
