@@ -21,3 +21,15 @@ export type AuthStep =
 
   // success
   | "succes";
+export type AuthMethod = "email" | "github" | null;
+
+export type IndicatorStepkey =
+  | "accountInfo"
+  | "avatar"
+  | "nameRole"
+  | "techStack";
+
+export type StepDef = {
+  key: IndicatorStepkey;
+  skipFor: AuthMethod[];
+};
