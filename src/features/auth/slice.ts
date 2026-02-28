@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./types/authState";
 
 const initialState: AuthState = {
-  step: "login",
+  step: "accountInfo",
   authMethod: "email",
   loading: false,
   isOpen: false,
