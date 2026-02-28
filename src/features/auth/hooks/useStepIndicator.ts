@@ -1,12 +1,20 @@
 import { useAppSelector } from "@/hooks/useAppHook";
 import React from "react";
 import { AuthToIndicator, IndicatorStep } from "../config/indicatorSteps";
+import type { IndicatorStepkey } from "../types/authSteps";
 
-export default function useStepIndicator() {
-  const currentStep = useAppSelector((state) => state.auth.step);
+export default function useStepIndicator():
+  | { shouldShow: false; activeSteps: []; currentStepKey: undefined }
+  | {
+      shouldShow: true;
+      activeSteps: typeof IndicatorStep;
+      currentStepKey: IndicatorStepkey;
+    } {
+  const step = useAppSelector((state) => state.auth.step);
   const authMethod = useAppSelector((state) => state.auth.authMethod);
 
-  const currentIndicatorKey = AuthToIndicator[currentStep];
+  const currentIndicatorKey = AuthToIndicator[step];
+  console.log(currentIndicatorKey);
 
   if (!currentIndicatorKey || !authMethod) {
     return {
@@ -19,11 +27,11 @@ export default function useStepIndicator() {
   // const shouldShow = currentIndicatorKey !== undefined && authMethod !== null;
 
   const activeSteps = IndicatorStep.filter(
-    (step) => !step.skipFor.includes(authMethod),
+    (item) => !item.skipFor.includes(authMethod),
   );
   return {
     shouldShow: true,
     activeSteps,
-    currentstepKey: currentIndicatorKey,
+    currentStepKey: currentIndicatorKey,
   };
 }
