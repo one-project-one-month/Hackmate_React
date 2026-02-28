@@ -1,5 +1,5 @@
 import type { AuthFormData } from "./authModel";
-import type { AuthStep } from "./authSteps";
+import type { AuthMethod, AuthStep } from "./authSteps";
 
 export interface AuthState {
   isOpen: boolean;
@@ -7,4 +7,5 @@ export interface AuthState {
   data: AuthFormData;
   loading: boolean;
   error?: string;
+  authMethod?: AuthMethod;
 }
