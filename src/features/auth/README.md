@@ -19,3 +19,10 @@ and don't forget to change it back to "login" after you finish your ui component
 don't worry about the circle shape.
 
 Thanks
+
+### UPDATE Dynamic Step Indicator
+
+Dynamic Step Indicator is done so those who take on steps such as `nameRole, techStack`, please import the useStepIndicator and StepIndicatro and implement them. 
+
+I have implemented them in `accountInfo` step so, if you are not sure about the flow, you can just either ask me or browse the codes. I'll be happy to explain. 
+
