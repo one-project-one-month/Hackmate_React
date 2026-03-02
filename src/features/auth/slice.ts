@@ -12,24 +12,25 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setStep: (state, action) => (state.step = action.payload),
-    openPortal: (state) => {
-      state.isOpen = true;
+    setStep: (state, action) => {
+      state.step = action.payload;
     },
-    closePortal: (state) => {
-      state.isOpen = false;
+    setIsOpen: (state, action) => {
+      state.isOpen = action.payload;
     },
-    updateData: (state, action) =>
-      (state.data = { ...state.data, ...action.payload }),
-    setAuthMethod: (state, action) => (state.authMethod = action.payload),
+    updateData: (state, action) => {
+      state.data = { ...state.data, ...action.payload };
+    },
+    setAuthMethod: (state, action) => {
+      state.authMethod = action.payload;
+    },
   },
 });
 
 export const {
   setStep,
-  openPortal,
-  closePortal,
+  setIsOpen,
   updateData,
-  setIndicatorStep,
+  // setIndicatorStep,
 } = authSlice.actions;
 export default authSlice.reducer;
