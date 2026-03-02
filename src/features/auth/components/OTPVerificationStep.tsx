@@ -1,6 +1,5 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -34,6 +33,22 @@ const OtpVerificationStep = () => {
       inputsRef.current[index - 1]?.focus();
     }
   };
+
+  const [timeLeft, setTimeLeft] = useState(90);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setCanResend(true);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
 
   return (
     <div className="w-full bg-transparent text-center">
@@ -89,9 +104,20 @@ const OtpVerificationStep = () => {
             <p className="text-sm text-gray-400 text-center">
               Didn’t receive OTP code?
             </p>
-            <p className="text-cyan-500 hover:text-cyan-400 cursor-pointer">
-              Resend
-            </p>
+            {canResend ? (
+              <span
+                className="text-cyan-500 hover:text-cyan-400 cursor-pointer"
+                onClick={() => {
+                  setTimeLeft(90);
+                  setCanResend(false);
+                  // call resend API here
+                }}
+              >
+                Resend
+              </span>
+            ) : (
+              <span className="text-cyan-500">{timeLeft} seconds</span>
+            )}
           </div>
 
           {/* Verify Button */}
