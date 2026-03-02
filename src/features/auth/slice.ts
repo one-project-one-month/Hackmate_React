@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./types/authState";
 
 const initialState: AuthState = {
-  step: "accountInfo",
+  step: "nameRole",
   authMethod: "email",
   loading: false,
   isOpen: false,
   data: {},
+  completedSteps: [],
 };
 const authSlice = createSlice({
   name: "auth",
@@ -22,6 +23,9 @@ const authSlice = createSlice({
     updateData: (state, action) =>
       (state.data = { ...state.data, ...action.payload }),
     setAuthMethod: (state, action) => (state.authMethod = action.payload),
+    addCompletedSteps: (state, action) => {
+      state.completedSteps.push(action.payload);
+    },
   },
 });
 
@@ -30,6 +34,7 @@ export const {
   openPortal,
   closePortal,
   updateData,
-  setIndicatorStep,
+  setAuthMethod,
+  addCompletedSteps,
 } = authSlice.actions;
 export default authSlice.reducer;
