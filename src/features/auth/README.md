@@ -26,3 +26,12 @@ Dynamic Step Indicator is done so those who take on steps such as `nameRole, tec
 
 I have implemented them in `accountInfo` step so, if you are not sure about the flow, you can just either ask me or browse the codes. I'll be happy to explain. 
 
+### UPDATE LANDING PAGE AND HEADER  
+
+So, after implement landing page and header components, for devs who are working on the seperate popup ui components, to get to the desire popup, here are the stpes
+
+- first change the url to `/auth-test`
+- change the open prop in `authPortal` to true in while you are at it, then change it back before pushing
+- this step is the same, change the step state of your own choosing
+
+## note please change it back to default values before pushing and when you create a pull request, please double check to make sure it is directed to `dev' not `main'

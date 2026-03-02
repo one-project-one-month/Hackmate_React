@@ -14,10 +14,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useAppDispatch } from "@/hooks/useAppHook";
+import { setStep } from "../slice";
 
 const LoginStep = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useAppDispatch();
   const form = useForm({
     defaultValues: {
       email: "",
@@ -135,7 +137,12 @@ const LoginStep = () => {
 
       <p className="mt-5 text-center text-sm text-gray-400">
         Don't have an account?{" "}
-        <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
+        <a
+          onClick={() => {
+            dispatch(setStep("signUpMethod"));
+          }}
+          className="text-cyan-500 hover:text-cyan-400 font-medium cursor-pointer"
+        >
           Signup here
         </a>
       </p>
