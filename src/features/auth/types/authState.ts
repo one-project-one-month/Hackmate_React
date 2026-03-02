@@ -1,5 +1,5 @@
 import type { AuthFormData } from "./authModel";
-import type { AuthMethod, AuthStep } from "./authSteps";
+import type { AuthMethod, AuthStep, IndicatorStepkey } from "./authSteps";
 
 export interface AuthState {
   isOpen: boolean;
@@ -8,4 +8,5 @@ export interface AuthState {
   loading: boolean;
   error?: string;
   authMethod?: AuthMethod;
+  completedSteps: IndicatorStepkey[];
 }
