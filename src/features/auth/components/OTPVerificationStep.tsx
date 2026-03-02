@@ -85,12 +85,14 @@ const OtpVerificationStep = () => {
           </div>
 
           {/* Resend */}
-          <p className="text-sm text-gray-400 text-center">
-            Didn’t receive OTP code?{" "}
-            <span className="text-cyan-500 hover:text-cyan-400 cursor-pointer">
+          <div className="flex items-center justify-between ">
+            <p className="text-sm text-gray-400 text-center">
+              Didn’t receive OTP code?
+            </p>
+            <p className="text-cyan-500 hover:text-cyan-400 cursor-pointer">
               Resend
-            </span>
-          </p>
+            </p>
+          </div>
 
           {/* Verify Button */}
           <Button
