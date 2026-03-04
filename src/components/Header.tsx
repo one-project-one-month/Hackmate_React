@@ -2,12 +2,13 @@ import React from "react";
 import { Button } from "./ui/button";
 import { useAppDispatch } from "@/hooks/useAppHook";
 import { setIsOpen, setStep } from "@/features/auth/slice";
+import logo from "@/assets/logo.png";
 
 export default function Header() {
   const dispatch = useAppDispatch();
   return (
     <div className="w-full py-5 px-12 flex justify-between items-center fixed top-0">
-      <h1 className="text-2xl font-bold">logo</h1>
+      <img src={logo} alt="Hackmate_logo" className="h-15 w-auto" />
       <div className="flex gap-5">
         <Button
           type="button"
