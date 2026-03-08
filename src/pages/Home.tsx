@@ -3,6 +3,7 @@ import bg from "@/assets/Background.png";
 import pattern from "@/assets/Pattern.png";
 import Xarrow, { Xwrapper } from "react-xarrows";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
 
 const avatars = [
   {
@@ -90,6 +91,7 @@ function Home() {
         }}
         className="min-h-screen w-full bg-radial from-fuchsia-800 to-indigo-900"
       >
+        <Header />
         {avatars.map((avatar) => (
           <div
             key={avatar.id}

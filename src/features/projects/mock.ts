@@ -1,0 +1,101 @@
+import type { Project } from "./types/projectModel";
+
+export const mockProjects: Project[] = [
+  {
+    id: 1,
+    title: "Food Delivery Platform",
+    description:
+      "A seamless app connecting restaurants and customers, with fast ordering, real-time tracking, and secure payments.",
+    type: "Web App",
+    image_url: "https://picsum.photos/seed/project1/800/400",
+    github_repo: "https://github.com/one-project-one-month/food-delivery",
+    created_by_user_id: 1,
+    is_active: true,
+    like_count: 12,
+    dislike_count: 2,
+    required_roles: [
+      { id: 1, label: "Designer" },
+      { id: 2, label: "Frontend" },
+      { id: 3, label: "Backend" },
+    ],
+    created_at: "2026-01-01T00:00:00Z",
+    updated_at: "2026-01-01T00:00:00Z",
+  },
+  {
+    id: 2,
+    title: "AI Code Review Bot",
+    description:
+      "Automated pull request reviews using LLMs to improve code quality across engineering teams.",
+    type: "Developer Tool",
+    image_url: "https://picsum.photos/seed/project2/800/400",
+    github_repo: "https://github.com/one-project-one-month/ai-review",
+    created_by_user_id: 2,
+    is_active: true,
+    like_count: 8,
+    dislike_count: 1,
+    required_roles: [
+      { id: 3, label: "Backend" },
+      { id: 4, label: "ML Engineer" },
+    ],
+    created_at: "2026-01-15T00:00:00Z",
+    updated_at: "2026-01-15T00:00:00Z",
+  },
+  {
+    id: 3,
+    title: "Remote Team Dashboard",
+    description:
+      "A real-time dashboard for remote teams to track tasks, standups, and productivity metrics.",
+    type: "Web App",
+    image_url: "https://picsum.photos/seed/project3/800/400",
+    github_repo: null,
+    created_by_user_id: 3,
+    is_active: true,
+    like_count: 5,
+    dislike_count: 0,
+    required_roles: [
+      { id: 1, label: "Designer" },
+      { id: 2, label: "Frontend" },
+    ],
+    created_at: "2026-02-01T00:00:00Z",
+    updated_at: "2026-02-01T00:00:00Z",
+  },
+  {
+    id: 4,
+    title: "Open Source Portfolio Builder",
+    description:
+      "A tool that auto-generates developer portfolios from GitHub activity and contributions.",
+    type: "Developer Tool",
+    image_url: "https://picsum.photos/seed/project4/800/400",
+    github_repo: "https://github.com/one-project-one-month/portfolio-builder",
+    created_by_user_id: 1,
+    is_active: true,
+    like_count: 20,
+    dislike_count: 3,
+    required_roles: [
+      { id: 2, label: "Frontend" },
+      { id: 3, label: "Backend" },
+    ],
+    created_at: "2026-02-10T00:00:00Z",
+    updated_at: "2026-02-10T00:00:00Z",
+  },
+  {
+    id: 5,
+    title: "Community Event Planner",
+    description:
+      "A platform for organizing and discovering local tech community events and hackathons.",
+    type: "Mobile App",
+    image_url: "https://picsum.photos/seed/project5/800/400",
+    github_repo: null,
+    created_by_user_id: 4,
+    is_active: true,
+    like_count: 3,
+    dislike_count: 1,
+    required_roles: [
+      { id: 1, label: "Designer" },
+      { id: 2, label: "Frontend" },
+      { id: 3, label: "Backend" },
+    ],
+    created_at: "2026-02-20T00:00:00Z",
+    updated_at: "2026-02-20T00:00:00Z",
+  },
+];
