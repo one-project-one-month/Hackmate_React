@@ -16,12 +16,12 @@ export default function ProjectListItem({
   onChat,
 }: ProjectListItemProps) {
   return (
-    <div className="w-full flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 hover:bg-white/15 transition">
+    <div className="w-full flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-md p-2.5 sm:p-3 hover:bg-white/15 transition">
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         <img
           src={image}
           alt={title}
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover flex-shrink-0"
+          className="w-16 h-10 sm:w-20 sm:h-12 rounded-md object-cover flex-shrink-0"
         />
 
         <div className="flex flex-col min-w-0">
@@ -55,4 +55,3 @@ export default function ProjectListItem({
     </div>
   );
 }
-// project list item component for each list item
