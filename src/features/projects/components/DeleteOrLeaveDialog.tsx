@@ -1,22 +1,24 @@
 type AlertDialogProps = {
+  open: boolean;
   title: string;
   message: string;
   confirmText: string;
-  cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
 };
 
-export default function DeleteOrLeaveDialog({
+export default function AlertDialog({
+  open,
   title,
   message,
   confirmText,
-  cancelText = "Cancel",
   onConfirm,
   onCancel,
 }: AlertDialogProps) {
+  if (!open) return null;
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <div className="bg-[#1c1c1c] text-white p-6 rounded-lg w-[420px] shadow-lg">
         <h2 className="text-lg font-semibold mb-2">{title}</h2>
 
@@ -27,7 +29,7 @@ export default function DeleteOrLeaveDialog({
             onClick={onCancel}
             className="px-4 py-1.5 border border-gray-500 rounded text-sm hover:bg-gray-700"
           >
-            {cancelText}
+            Cancel
           </button>
 
           <button
