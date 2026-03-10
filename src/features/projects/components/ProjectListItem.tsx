@@ -45,17 +45,20 @@ export default function ProjectListItem({
       <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
         <button
           onClick={onAction}
-          className="transition 
-             text-red-500 hover:text-red-400"
+          className="transition text-red-500 hover:text-red-400 cursor-pointer"
         >
-          {isDelete ? <Trash2 size={18} /> : <LogOut size={18} />}
+          {isDelete ? (
+            <Trash2 size={18} className="cursor-pointer" />
+          ) : (
+            <LogOut size={18} className="cursor-pointer" />
+          )}
         </button>
 
         <button
           onClick={onChat}
-          className="text-cyan-400 hover:text-cyan-300 transition"
+          className="text-cyan-400 hover:text-cyan-300 transition cursor-pointer"
         >
-          <MessageSquare size={18} />
+          <MessageSquare size={18} className="cursor-pointer" />
         </button>
       </div>
     </div>

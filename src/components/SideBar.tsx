@@ -53,11 +53,13 @@ export default function Sidebar() {
           </Link>
         ))}
         <div className="w-full ">
-          <button className="flex items-center gap-3 rounded-full border-y border-r border-zinc-500 bg-zinc-700/20 w-full hover:border-red-500 hover:text-red-400 transition-all">
-            <div className="w-12 h-12 min-w-12 rounded-full bg-zinc-900 border border-zinc-500 flex items-center justify-center">
-              <LogOut size={20} className="text-zinc-400" />
+          <button className="flex items-center gap-3 rounded-full border-y border-r border-zinc-500 bg-zinc-700/20 w-full hover:border-red-500 hover:text-red-400 transition-all cursor-pointer">
+            <div className="w-12 h-12 min-w-12 rounded-full bg-zinc-900 border border-zinc-500 flex items-center justify-center cursor-pointer">
+              <LogOut size={20} className="text-zinc-400 cursor-pointer" />
             </div>
-            <span className="text-sm font-medium text-zinc-400">Logout</span>
+            <span className="text-sm font-medium text-zinc-400 cursor-pointer">
+              Logout
+            </span>
           </button>
         </div>
       </nav>
