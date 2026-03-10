@@ -13,6 +13,7 @@ export default function ProjectList() {
             <ProjectListItem
               title={project.title}
               members={project.required_roles.length} //this is not member count, just for demo
+              actionType="leave"
               image={project.image_url || "/images/default.jpg"}
             />
           </div>
