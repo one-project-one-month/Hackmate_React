@@ -1,3 +1,5 @@
+import RoleTag from "./RoleTag";
+
 const ProjectCard = () => {
   const project = {
     type: "Mobile",
@@ -5,7 +7,12 @@ const ProjectCard = () => {
     description:
       "A seamless app connecting restaurants and customers, with fast ordering, real-time tracking, and secure payments. This platform is designed to scale efficiently while providing a premium user experience for both diners and restaurant staff, ensuring high performance across all mobile devices.",
     github_repo: "https://github.com/username/floral-pos-system",
-    required_roles: ["Designer", "Frontend", "Backend"],
+    required_roles: [
+      { id: 1, label: "Designer" },
+      { id: 2, label: "Frontend" },
+      { id: 3, label: "Backend" },
+      { id: 4, label: "DevOps" },
+    ],
     image_url:
       "https://images.template.net/551106/Gradient-Background-edit-online.webp",
   };
@@ -16,7 +23,6 @@ const ProjectCard = () => {
       h-[620px] bg-[#121212] rounded-3xl border border-gray-800 
       overflow-hidden shadow-2xl mx-auto"
     >
-      
       <img
         src={project.image_url}
         alt={project.title}
@@ -46,12 +52,7 @@ const ProjectCard = () => {
           </p>
           <div className="flex justify-center gap-4">
             {project.required_roles.map((role) => (
-              <span
-                key={role}
-                className="bg-[#1e1e1e] border border-gray-700 text-sm px-6 py-2 rounded-full text-gray-300"
-              >
-                {role}
-              </span>
+              <RoleTag role={role} />
             ))}
           </div>
         </div>
