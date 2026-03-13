@@ -6,7 +6,7 @@ export default function MyProjectsPage() {
   return (
     <div className="min-h-screen p-5 flex flex-col justify-start items-start">
       {/* Header section */}
-      <div>
+      <div className="mb-5">
         <h1 className="text-5xl font-serif font-bold text-zinc-200 leading-relaxed">
           Project Group List
         </h1>
@@ -16,8 +16,6 @@ export default function MyProjectsPage() {
         </p>
       </div>
 
-      {/* <ProjectTabs /> */}
-      <ProjectTab />
       <ProjectList />
       {/* <ProjectList /> */}
     </div>
