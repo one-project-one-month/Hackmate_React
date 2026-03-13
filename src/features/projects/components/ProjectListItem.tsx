@@ -6,7 +6,8 @@ type ProjectListItemProps = {
   title: string;
   members: number;
   image: string;
-  onDelete?: () => void;
+  actionType?: "delete" | "leave";
+  onAction?: () => void;
   onChat?: () => void;
 };
 
@@ -14,12 +15,14 @@ export default function ProjectListItem({
   title,
   members,
   image,
-  onDelete,
+  actionType = "delete",
+  onAction,
   onChat,
 }: ProjectListItemProps) {
   const dispatch = useAppDispatch();
   return (
     <div className="w-full flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-md p-2.5 sm:p-3 hover:bg-white/15 transition">
+      {/* Left Section */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         <img
           src={image}
@@ -45,14 +48,18 @@ export default function ProjectListItem({
           onClick={() => dispatch(setIsDeleteAlert(true))}
           className="text-red-500 hover:text-red-400 transition"
         >
-          <Trash2 size={18} />
+          {isDelete ? (
+            <Trash2 size={18} className="cursor-pointer" />
+          ) : (
+            <LogOut size={18} className="cursor-pointer" />
+          )}
         </button>
 
         <button
           onClick={onChat}
-          className="text-cyan-400 hover:text-cyan-300 transition"
+          className="text-cyan-400 hover:text-cyan-300 transition cursor-pointer"
         >
-          <MessageSquare size={18} />
+          <MessageSquare size={18} className="cursor-pointer" />
         </button>
       </div>
     </div>

@@ -1,6 +1,16 @@
-import React from "react";
+import type { ProjectRole } from "../types/projectModel";
 
-export default function RoleTag() {
-  return <div>RoleTag</div>;
+type Props = {
+  role: ProjectRole;
+};
+
+export default function RoleTag({ role }: Props) {
+  return (
+    <span
+      key={role.id}
+      className="bg-[#1e1e1e] border border-gray-700 text-sm px-6 py-2 rounded-full text-gray-300"
+    >
+      {role.label}
+    </span>
+  );
 }
-// individual role templeae accpet props to display the role
