@@ -8,6 +8,7 @@ type ProjectsState = {
   applied: number[];
   myProjects: Project[];
   selectedProject: Project | null;
+  isDeleteAlert: boolean;
 };
 
 const initialState: ProjectsState = {
@@ -16,6 +17,7 @@ const initialState: ProjectsState = {
   applied: [],
   myProjects: [],
   selectedProject: null,
+  isDeleteAlert: true,
 };
 
 const projectsSlice = createSlice({
@@ -42,6 +44,9 @@ const projectsSlice = createSlice({
       state.currentIndex = 0;
       state.applied = [];
     },
+    setIsDeleteAlert: (state, action) => {
+      state.isDeleteAlert = action.payload;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   setSelectedProject,
   setMyProjects,
   resetQueue,
+  setIsDeleteAlert,
 } = projectsSlice.actions;
 
 export default projectsSlice.reducer;
