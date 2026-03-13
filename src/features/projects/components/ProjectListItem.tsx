@@ -1,4 +1,6 @@
+import { useAppDispatch } from "@/hooks/useAppHook";
 import { Trash2, MessageSquare, Users } from "lucide-react";
+import { setIsDeleteAlert } from "../slice";
 
 type ProjectListItemProps = {
   title: string;
@@ -15,6 +17,7 @@ export default function ProjectListItem({
   onDelete,
   onChat,
 }: ProjectListItemProps) {
+  const dispatch = useAppDispatch();
   return (
     <div className="w-full flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-md p-2.5 sm:p-3 hover:bg-white/15 transition">
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
@@ -39,7 +42,7 @@ export default function ProjectListItem({
       {/* Right Section */}
       <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
         <button
-          onClick={onDelete}
+          onClick={() => dispatch(setIsDeleteAlert(true))}
           className="text-red-500 hover:text-red-400 transition"
         >
           <Trash2 size={18} />

@@ -1,47 +1,61 @@
-type AlertDialogProps = {
-  open: boolean;
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
+import { setIsDeleteAlert } from "../slice";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
+type ProjectAlertDialogProps = {
   title: string;
   message: string;
   confirmText: string;
   onConfirm: () => void;
-  onCancel: () => void;
 };
 
-export default function AlertDialog({
-  open,
+export default function ProjectAlertDialog({
   title,
   message,
   confirmText,
   onConfirm,
-  onCancel,
-}: AlertDialogProps) {
-  if (!open) return null;
+}: ProjectAlertDialogProps) {
+  const isDeleteAlert = useAppSelector((state) => state.projects.isDeleteAlert);
+  const dispatch = useAppDispatch();
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-      <div className="bg-[#1c1c1c] text-white p-6 rounded-lg w-[420px] shadow-lg">
-        <h2 className="text-lg font-semibold mb-2">{title}</h2>
-
-        <p className="text-sm text-gray-300 mb-6">{message}</p>
-
-        <div className="flex justify-end gap-3">
-          <button
-            onClick={onCancel}
-            className="px-4 py-1.5 border border-gray-500 rounded text-sm hover:bg-gray-700"
+    <AlertDialog
+      open={isDeleteAlert}
+      onOpenChange={(open) => dispatch(setIsDeleteAlert(open))}
+    >
+      <AlertDialogContent className="bg-[#1c1c1c] text-white border-zinc-700 rounded-lg w-[420px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-white text-lg font-semibold">
+            {title}
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-gray-300 text-sm">
+            {message}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel
+            className="bg-transparent border border-gray-500 text-white hover:bg-gray-700 hover:text-white"
+            onClick={() => dispatch(setIsDeleteAlert(false))}
           >
             Cancel
-          </button>
-
-          <button
+          </AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-red-600 hover:bg-red-700 text-white border-none"
             onClick={onConfirm}
-            className="px-4 py-1.5 bg-red-600 rounded text-sm hover:bg-red-700"
           >
             {confirmText}
-          </button>
-        </div>
-      </div>
-    </div>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
-
-// template for alert dialog, accpet delete or leave props
