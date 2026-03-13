@@ -16,6 +16,7 @@ type ProjectAlertDialogProps = {
   message: string;
   confirmText: string;
   onConfirm: () => void;
+  onCancel: () => void;
 };
 
 export default function ProjectAlertDialog({
@@ -23,6 +24,7 @@ export default function ProjectAlertDialog({
   message,
   confirmText,
   onConfirm,
+  onCancel,
 }: ProjectAlertDialogProps) {
   const isDeleteAlert = useAppSelector((state) => state.projects.isDeleteAlert);
   const dispatch = useAppDispatch();
@@ -44,7 +46,7 @@ export default function ProjectAlertDialog({
         <AlertDialogFooter>
           <AlertDialogCancel
             className="bg-transparent border border-gray-500 text-white hover:bg-gray-700 hover:text-white"
-            onClick={() => dispatch(setIsDeleteAlert(false))}
+            onClick={onCancel}
           >
             Cancel
           </AlertDialogCancel>
