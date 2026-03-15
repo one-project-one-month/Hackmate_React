@@ -18,3 +18,5 @@ export type Project = {
   created_at: string;
   updated_at: string;
 };
+
+export type ActionType = "delete" | "leave" | null;

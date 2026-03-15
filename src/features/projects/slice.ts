@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Project } from "./types";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { type Project } from "./types/projectModel";
 import { mockProjects } from "./mock";
+import { type ActionType } from "./types/projectModel";
 
 type ProjectsState = {
   projects: Project[];
@@ -8,7 +9,7 @@ type ProjectsState = {
   applied: number[];
   myProjects: Project[];
   selectedProject: Project | null;
-  isDeleteAlert: boolean;
+  activeAction: ActionType;
 };
 
 const initialState: ProjectsState = {
@@ -17,7 +18,7 @@ const initialState: ProjectsState = {
   applied: [],
   myProjects: [],
   selectedProject: null,
-  isDeleteAlert: true,
+  activeAction: null,
 };
 
 const projectsSlice = createSlice({
@@ -44,8 +45,8 @@ const projectsSlice = createSlice({
       state.currentIndex = 0;
       state.applied = [];
     },
-    setIsDeleteAlert: (state, action) => {
-      state.isDeleteAlert = action.payload;
+    setActiveAction: (state, action: PayloadAction<ActionType>) => {
+      state.activeAction = action.payload;
     },
   },
 });
@@ -56,7 +57,7 @@ export const {
   setSelectedProject,
   setMyProjects,
   resetQueue,
-  setIsDeleteAlert,
+  setActiveAction,
 } = projectsSlice.actions;
 
 export default projectsSlice.reducer;

@@ -1,13 +1,13 @@
 import { useAppDispatch } from "@/hooks/useAppHook";
-import { Trash2, MessageSquare, Users } from "lucide-react";
-import { setIsDeleteAlert } from "../slice";
+import { Trash2, MessageSquare, Users, LogOut } from "lucide-react";
+import { setActiveAction } from "../slice";
+import type { ActionType } from "../types/projectModel";
 
 type ProjectListItemProps = {
   title: string;
   members: number;
   image: string;
-  actionType?: "delete" | "leave";
-  onAction?: () => void;
+  actionType?: ActionType;
   onChat?: () => void;
 };
 
@@ -15,8 +15,7 @@ export default function ProjectListItem({
   title,
   members,
   image,
-  actionType = "delete",
-  onAction,
+  actionType,
   onChat,
 }: ProjectListItemProps) {
   const dispatch = useAppDispatch();
@@ -45,10 +44,10 @@ export default function ProjectListItem({
       {/* Right Section */}
       <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
         <button
-          onClick={() => dispatch(setIsDeleteAlert(true))}
+          onClick={() => dispatch(setActiveAction(actionType))}
           className="text-red-500 hover:text-red-400 transition"
         >
-          {isDelete ? (
+          {actionType === "delete" ? (
             <Trash2 size={18} className="cursor-pointer" />
           ) : (
             <LogOut size={18} className="cursor-pointer" />
