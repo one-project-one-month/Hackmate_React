@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
-import { setActiveAction, setIsDeleteAlert } from "../slice";
+import { setActiveAction } from "../slice";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -17,13 +17,13 @@ type ProjectAlertDialogProps = {
 
 const ACTION_CONFIG = {
   delete: {
-    title: "Delete project?",
-    message: "This will permanently remove the project.",
+    title: "Delete the project?",
+    message: "Are you sure you want to delete this prouject",
     confirmText: "Delete",
   },
   leave: {
-    title: "Leave project?",
-    message: "You will no longer have access to this project.",
+    title: "Leave from this project?",
+    message: "Are you sure you want to leave form this project",
     confirmText: "Leave",
   },
 };
