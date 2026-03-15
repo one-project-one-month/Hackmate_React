@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "./types/authState";
+import type { IndicatorStepkey } from "./types/authSteps";
 
 const initialState: AuthState = {
   step: "techStack",
   authMethod: "email",
   loading: false,
-  isOpen: false,
+  isOpen: true,
   data: {},
   completedSteps: [],
 };
@@ -24,6 +25,11 @@ const authSlice = createSlice({
     },
     setAuthMethod: (state, action) => {
       state.authMethod = action.payload;
+    },
+    addCompletedSteps: (state, action: PayloadAction<IndicatorStepkey>) => {
+      if (!state.completedSteps.includes(action.payload)) {
+        state.completedSteps.push(action.payload);
+      }
     },
   },
 });
