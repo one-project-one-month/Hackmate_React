@@ -1,12 +1,26 @@
-import { useAppDispatch } from "@/hooks/useAppHook";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
 import ProjecAlertDialog from "../components/DeleteOrLeaveDialog";
 import ProjectList from "../components/ProjectList";
-import ProjectTab from "../components/ProjectTab";
-import { setIsDeleteAlert } from "../slice";
+import { setActiveAction } from "../slice";
 
 // MyProjectsPage.tsx
 export default function MyProjectsPage() {
+  const activeAction = useAppSelector((state) => state.projects.activeAction);
   const dispatch = useAppDispatch();
+
+  const handleConfirm = () => {
+    switch (activeAction) {
+      case "delete":
+        console.log("deleteing");
+        break;
+
+      case "leave":
+        console.log("leaving");
+        break;
+    }
+    dispatch(setActiveAction(null));
+  };
+
   return (
     <div className="min-h-screen p-5 flex flex-col justify-start items-start">
       {/* Header section */}
@@ -22,16 +36,7 @@ export default function MyProjectsPage() {
 
       <ProjectList />
       {/* <ProjectList /> */}
-      <ProjecAlertDialog
-        title="Delete this project?"
-        message="This action cannot be undone."
-        confirmText="Delete"
-        onConfirm={() => {
-          // handle delete
-          dispatch(setIsDeleteAlert(false));
-        }}
-        onCancel={() => dispatch(setIsDeleteAlert(false))}
-      />
+      <ProjecAlertDialog onConfirm={handleConfirm} />
     </div>
   );
 }

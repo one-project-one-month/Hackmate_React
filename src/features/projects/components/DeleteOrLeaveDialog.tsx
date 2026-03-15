@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
-import { setIsDeleteAlert } from "../slice";
+import { setActiveAction, setIsDeleteAlert } from "../slice";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -12,41 +12,47 @@ import {
 } from "@/components/ui/alert-dialog";
 
 type ProjectAlertDialogProps = {
-  title: string;
-  message: string;
-  confirmText: string;
   onConfirm: () => void;
-  onCancel: () => void;
+};
+
+const ACTION_CONFIG = {
+  delete: {
+    title: "Delete project?",
+    message: "This will permanently remove the project.",
+    confirmText: "Delete",
+  },
+  leave: {
+    title: "Leave project?",
+    message: "You will no longer have access to this project.",
+    confirmText: "Leave",
+  },
 };
 
 export default function ProjectAlertDialog({
-  title,
-  message,
-  confirmText,
   onConfirm,
-  onCancel,
 }: ProjectAlertDialogProps) {
-  const isDeleteAlert = useAppSelector((state) => state.projects.isDeleteAlert);
+  const activeAction = useAppSelector((state) => state.projects.activeAction);
   const dispatch = useAppDispatch();
 
+  const config = activeAction ? ACTION_CONFIG[activeAction] : null;
   return (
     <AlertDialog
-      open={isDeleteAlert}
-      onOpenChange={(open) => dispatch(setIsDeleteAlert(open))}
+      open={activeAction !== null}
+      onOpenChange={() => dispatch(setActiveAction(null))}
     >
       <AlertDialogContent className="bg-[#1c1c1c] text-white border-zinc-700 rounded-lg w-[420px]">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-white text-lg font-semibold">
-            {title}
+            {config?.title}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-gray-300 text-sm">
-            {message}
+            {config?.message}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel
             className="bg-transparent border border-gray-500 text-white hover:bg-gray-700 hover:text-white"
-            onClick={onCancel}
+            onClick={() => dispatch(setActiveAction(null))}
           >
             Cancel
           </AlertDialogCancel>
@@ -54,7 +60,7 @@ export default function ProjectAlertDialog({
             className="bg-red-600 hover:bg-red-700 text-white border-none"
             onClick={onConfirm}
           >
-            {confirmText}
+            {config?.confirmText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
