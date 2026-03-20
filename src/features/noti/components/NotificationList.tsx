@@ -31,7 +31,7 @@ const NotificationList = () => {
         )}
       </div>
 
-      <div className="flex items-center gap-6 bg-white/15 backdrop-blur-md p-4 text-cyan-400 text-sm rounded-3xl absolute left-3 bottom-3 cursor-pointer hover:bg-white/30">
+      <div className="flex items-center gap-6 bg-slate-600/20   backdrop-blur-md p-4 text-cyan-400 text-sm rounded-3xl absolute right-3 bottom-3 cursor-pointer hover:bg-white/10">
         <MailOpen/>
         <p>Mark as all read</p>
       </div>

@@ -34,7 +34,7 @@ const NotificationListItem: React.FC<NotificationListItemProps> = ({
           {projectTitle}
         </h3>
         <p className="text-gray-400 text-sm mt-1 leading-snug">
-          <span className="text-white font-medium">{requesterName}</span> has been requested to join your project. Do you want to Accept or reject?
+          <span className="text-white font-medium">{requesterName}</span> has been requested to join your project. Do you want to Accept or Reject?
         </p>
 
         {/* Action Buttons */}
