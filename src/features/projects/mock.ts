@@ -99,3 +99,34 @@ export const mockProjects: Project[] = [
     updated_at: "2026-02-20T00:00:00Z",
   },
 ];
+
+export const mockNotifications = [
+  {
+    id: "1",
+    projectTitle: "Social Commerce Bridge",
+    requesterName: "Pyae Sone",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pyae",
+    status: "pending",
+  },
+  {
+    id: "2",
+    projectTitle: "Digital Inclusion Project",
+    requesterName: "Hsu Myat",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hsu",
+    status: "pending",
+  },
+  {
+    id: "3",
+    projectTitle: "Inventory System v2",
+    requesterName: "Kyaw Zin",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kyaw",
+    status: "pending",
+  },
+  {
+    id: "4",
+    projectTitle: "E-learning Platform",
+    requesterName: "Thiri",
+    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Thiri",
+    status: "pending",
+  }
+];
