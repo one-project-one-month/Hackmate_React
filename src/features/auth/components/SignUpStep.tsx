@@ -70,6 +70,7 @@ const SignUpStep = () => {
           {/* Continue Button */}
           <Button
             type="submit"
+            onClick={() => dispatch(setStep("emailVerification"))}
             className="w-full bg-[#0097b2] hover:bg-[#00869d] text-white rounded-lg h-10 font-medium shadow-lg shadow-cyan-950/10"
           >
             Continue
