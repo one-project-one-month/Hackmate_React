@@ -1,5 +1,4 @@
 import { useAppSelector } from "@/hooks/useAppHook";
-import React from "react";
 import { AuthToIndicator, IndicatorStep } from "../config/indicatorSteps";
 import type { IndicatorStepkey } from "../types/authSteps";
 
@@ -14,7 +13,6 @@ export default function useStepIndicator():
   const authMethod = useAppSelector((state) => state.auth.authMethod);
 
   const currentIndicatorKey = AuthToIndicator[step];
-  console.log(currentIndicatorKey);
 
   if (!currentIndicatorKey || !authMethod) {
     return {

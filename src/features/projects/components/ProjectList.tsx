@@ -5,15 +5,13 @@ import { mockProjects } from "../mock";
 import ProjectTabs from "./ProjectTab";
 
 export default function ProjectList() {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<any>(null);
-  const [actionType, setActionType] = useState<"delete" | "leave">("leave");
+  const [selectedProject ] = useState<any>(null);
+  const [actionType] = useState<"delete" | "leave">("leave");
 
-  const handleActionClick = (project: any, type: "delete" | "leave") => {
-    setSelectedProject(project);
-    setActionType(type);
-    setDialogOpen(true);
-  };
+  // const handleActionClick = (project: any, type: "delete" | "leave") => {
+  //   setSelectedProject(project);
+  //   setActionType(type);
+  // };
 
   const handleConfirm = () => {
     if (!selectedProject) return;
@@ -26,7 +24,6 @@ export default function ProjectList() {
       console.log("Leave project:", selectedProject.id);
     }
 
-    setDialogOpen(false);
   };
 
   return (
@@ -44,28 +41,12 @@ export default function ProjectList() {
             members={project.required_roles.length}
             actionType="delete" //delete or leave
             image={project.image_url || "/images/default.jpg"}
-            onAction={() => handleActionClick(project, "delete")} // delete or leave
           />
         ))}
       </div>
 
       {/* Dynamic Alert Dialog */}
-      <DeleteOrLeaveDialog
-        open={dialogOpen}
-        title={
-          actionType === "delete"
-            ? "Delete this project?"
-            : "Leave this project?"
-        }
-        message={
-          actionType === "delete"
-            ? "Are you sure you want to delete this project?"
-            : "Are you sure you want to leave this project?"
-        }
-        confirmText={actionType === "delete" ? "Delete" : "Leave"}
-        onConfirm={handleConfirm}
-        onCancel={() => setDialogOpen(false)}
-      />
+      <DeleteOrLeaveDialog onConfirm={handleConfirm} />
     </div>
   );
 }

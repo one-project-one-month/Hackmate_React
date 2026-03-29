@@ -4,9 +4,9 @@ import logo from "@/assets/logo.png";
 
 const navItems = [
   { icon: Home, label: "Home", to: "/browse" },
-  { icon: Plus, label: "Add", to: "/projects/create" },
+  { icon: Plus, label: "Add", to: "/add" },
   { icon: FolderKanban, label: "Project", to: "/projects" },
-  { icon: Bell, label: "Alert", to: "/alerts" },
+  { icon: Bell, label: "Alert", to: "/noti" },
   { icon: User, label: "Profile", to: "/profile" },
 ];
 

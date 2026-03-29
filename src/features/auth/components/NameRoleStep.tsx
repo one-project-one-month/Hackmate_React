@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/select";
 import useStepIndicator from "../hooks/useStepIndicator";
 import StepIndicator from "./StepIndicator";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { nameRoleSchema, type NameRoleFormData } from "../types/signupSchemas";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
+import { addCompletedSteps, setStep, updateData } from "../slice";
 
 const ROLES = [
   { label: "Developer", value: "developer" },
@@ -28,26 +32,26 @@ const ROLES = [
   { label: "Other", value: "other" },
 ] as const;
 
-interface NameRoleFormValues {
-  name: string;
-  role: string;
-}
-
 const NameRoleStep: React.FC = () => {
   const { shouldShow, activeSteps, currentStepKey } = useStepIndicator();
+  const dispatch = useAppDispatch();
+  const { username, role } = useAppSelector((state) => state.auth.data);
 
-  const form = useForm<NameRoleFormValues>({
+  const form = useForm<NameRoleFormData>({
     defaultValues: {
-      name: "",
-      role: "",
+      name: username || "",
+      role: role || "",
     },
+    resolver: zodResolver(nameRoleSchema),
   });
 
   const { errors } = form.formState;
   const firstError = errors.name?.message || errors.role?.message;
 
-  const onSubmit = (data: NameRoleFormValues) => {
-    console.log("Submitted Data:", data);
+  const onSubmit = (data: NameRoleFormData) => {
+    dispatch(updateData({ username: data.name, role: data.role }));
+    dispatch(addCompletedSteps("nameRole"));
+    dispatch(setStep("techStack"));
   };
 
   return (
@@ -75,12 +79,11 @@ const NameRoleStep: React.FC = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 max-w-xs m-auto" 
+          className="space-y-4 max-w-xs m-auto"
         >
           <FormField
             control={form.control}
             name="name"
-            rules={{ required: "Name is required" }}
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="text-gray-300">Name</FormLabel>
@@ -98,11 +101,10 @@ const NameRoleStep: React.FC = () => {
           <FormField
             control={form.control}
             name="role"
-            rules={{ required: "Please select a role" }}
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="text-gray-300">Preferred Role</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger className="bg-transparent border-zinc-200/50 text-gray-400 rounded-lg h-10 w-full">
                       <SelectValue placeholder="Select your role" />
@@ -131,9 +133,12 @@ const NameRoleStep: React.FC = () => {
 
       <p className="mt-5 text-center text-sm text-gray-400">
         Already have an account?{" "}
-        <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
+        <button
+          onClick={() => dispatch(setStep("login"))}
+          className="text-cyan-500 hover:text-cyan-400 font-medium"
+        >
           Sign in here
-        </a>
+        </button>
       </p>
     </div>
   );
