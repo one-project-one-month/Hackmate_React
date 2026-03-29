@@ -1,5 +1,5 @@
 import { useState, type KeyboardEvent } from "react";
-import { Plus, X } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,12 +8,15 @@ import { updateData, setStep, addCompletedSteps, setIsOpen } from "../slice";
 import { useNavigate } from "@tanstack/react-router";
 import useStepIndicator from "../hooks/useStepIndicator";
 import StepIndicator from "./StepIndicator";
+import { registerUser } from "../api/api";
 
 export default function TechStackStep() {
   const dispatch = useAppDispatch();
   const techStack = useAppSelector((state) => state.auth.data.techStack ?? []);
+  const finalData = useAppSelector((state) => state.auth.data);
   const { shouldShow, activeSteps, currentStepKey } = useStepIndicator();
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleAdd = () => {
@@ -41,15 +44,22 @@ export default function TechStackStep() {
     }
   };
 
-  const handleSubmit = () => {
-    dispatch(addCompletedSteps("techStack"));
-    dispatch(setStep("success"));
-    dispatch(setIsOpen(false));
-    navigate({ to: "/browse" });
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      await registerUser(finalData as any);
+      dispatch(addCompletedSteps("techStack"));
+      dispatch(setIsOpen(false));
+      navigate({ to: "/browse" });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="w-full bg-transparent max-w-150">
+    <div className="w-full bg-transparent flex flex-col justify-center items-center">
       {shouldShow && (
         <StepIndicator step={activeSteps} currentStep={currentStepKey} />
       )}
@@ -109,9 +119,16 @@ export default function TechStackStep() {
       {/* Submit */}
       <Button
         onClick={handleSubmit}
+        disabled={isLoading}
         className="w-full bg-cyan-600 hover:bg-cyan-700 text-white mb-2"
       >
-        Create account
+        {isLoading ? (
+          <>
+            <Loader2 size={18} className="animate-spin" /> Creating ...{" "}
+          </>
+        ) : (
+          "Create account"
+        )}
       </Button>
 
       {/* Sign in link */}

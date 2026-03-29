@@ -5,7 +5,7 @@ type StepIndicatorProps = {
   currentStep: IndicatorStepkey;
 };
 
-import React from "react";
+
 
 export default function StepIndicator({
   step,

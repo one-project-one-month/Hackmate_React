@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "./types/authState";
-import type { IndicatorStepkey } from "./types/authSteps";
+import type { AuthStep, IndicatorStepkey } from "./types/authSteps";
 
 const initialState: AuthState = {
-  step: "techStack",
+  step: "signUpMethod",
   authMethod: "email",
   loading: false,
   isOpen: true,
@@ -14,7 +14,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setStep: (state, action) => {
+    setStep: (state, action: PayloadAction<AuthStep>) => {
       state.step = action.payload;
     },
     setIsOpen: (state, action) => {

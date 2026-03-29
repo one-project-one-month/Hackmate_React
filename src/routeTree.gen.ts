@@ -9,7 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthTestRouteImport } from './routes/auth-test'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppProjectsRouteImport } from './routes/_app.projects'
@@ -19,9 +19,9 @@ import { Route as AppBrowseRouteImport } from './routes/_app.browse'
 import { Route as AppAddRouteImport } from './routes/_app.add'
 import { Route as AppProjectChatRouteImport } from './routes/_app.project.chat'
 
-const AuthTestRoute = AuthTestRouteImport.update({
-  id: '/auth-test',
-  path: '/auth-test',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -66,7 +66,7 @@ const AppProjectChatRoute = AppProjectChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth-test': typeof AuthTestRoute
+  '/auth': typeof AuthRoute
   '/add': typeof AppAddRoute
   '/browse': typeof AppBrowseRoute
   '/noti': typeof AppNotiRoute
@@ -76,7 +76,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth-test': typeof AuthTestRoute
+  '/auth': typeof AuthRoute
   '/add': typeof AppAddRoute
   '/browse': typeof AppBrowseRoute
   '/noti': typeof AppNotiRoute
@@ -88,7 +88,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
-  '/auth-test': typeof AuthTestRoute
+  '/auth': typeof AuthRoute
   '/_app/add': typeof AppAddRoute
   '/_app/browse': typeof AppBrowseRoute
   '/_app/noti': typeof AppNotiRoute
@@ -100,7 +100,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/auth-test'
+    | '/auth'
     | '/add'
     | '/browse'
     | '/noti'
@@ -110,7 +110,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth-test'
+    | '/auth'
     | '/add'
     | '/browse'
     | '/noti'
@@ -121,7 +121,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_app'
-    | '/auth-test'
+    | '/auth'
     | '/_app/add'
     | '/_app/browse'
     | '/_app/noti'
@@ -133,16 +133,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
-  AuthTestRoute: typeof AuthTestRoute
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth-test': {
-      id: '/auth-test'
-      path: '/auth-test'
-      fullPath: '/auth-test'
-      preLoaderRoute: typeof AuthTestRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -227,7 +227,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
-  AuthTestRoute: AuthTestRoute,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

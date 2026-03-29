@@ -1,4 +1,3 @@
-import React from "react";
 import bg from "@/assets/Background.png";
 import pattern from "@/assets/Pattern.png";
 import Xarrow, { Xwrapper } from "react-xarrows";

@@ -13,22 +13,45 @@ import {
 } from "@/components/ui/form";
 import useStepIndicator from "../hooks/useStepIndicator";
 import StepIndicator from "./StepIndicator";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
+import {
+  type AccountInfoFormData,
+  accountInfoSchema,
+} from "../types/signupSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addCompletedSteps, setStep, updateData } from "../slice";
 
 const AccountInfoStep = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const { shouldShow, activeSteps, currentStepKey } = useStepIndicator();
+  const email = useAppSelector((state) => state.auth.data.email);
+  const dispatch = useAppDispatch();
 
-  const form = useForm({
+  const form = useForm<AccountInfoFormData>({
     defaultValues: {
-      email: "",
+      email: email,
       password: "",
       confirmPassword: "",
     },
+    resolver: zodResolver(accountInfoSchema),
   });
 
   const password = form.watch("password");
   const { errors } = form.formState;
+
+  // on submit
+  const onSubmit = (data: AccountInfoFormData) => {
+    dispatch(
+      updateData({
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.confirmPassword,
+      }),
+    );
+    dispatch(addCompletedSteps("accountInfo"));
+    dispatch(setStep("avatar"));
+  };
 
   // Get first error message
   const firstError =
@@ -71,9 +94,7 @@ const AccountInfoStep = () => {
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((data) => {
-            console.log(data);
-          })}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 max-w-xs m-auto"
         >
           {/* Email */}
@@ -181,9 +202,12 @@ const AccountInfoStep = () => {
 
       <p className="mt-5 text-center text-sm text-gray-400">
         Already have an account?{" "}
-        <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
+        <button
+          onClick={() => dispatch(setStep("login"))}
+          className="text-cyan-500 hover:text-cyan-400 font-medium"
+        >
           Sign in here
-        </a>
+        </button>
       </p>
     </div>
   );

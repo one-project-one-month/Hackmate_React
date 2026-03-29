@@ -20,7 +20,7 @@ selectedProject: Project | null
 
 ## Mock Data
 
-Flip `USE_MOCK` in `api.ts` when backend is ready:
+Flipo `USE_MOCK` in `api.ts` when backend is ready:
 
 ```ts
 const USE_MOCK = true;

@@ -44,7 +44,7 @@ export default function ProjectListItem({
       {/* Right Section */}
       <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
         <button
-          onClick={() => dispatch(setActiveAction(actionType))}
+          onClick={() => actionType && dispatch(setActiveAction(actionType))}
           className="text-red-500 hover:text-red-400 transition"
         >
           {actionType === "delete" ? (

@@ -13,7 +13,7 @@ export interface AuthFormData {
   role?: string;
 
   //   avatar
-  avater?: File | null;
+  avatar?: string | null;
 
   //   techStack
   techStack?: string[];
