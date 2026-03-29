@@ -3,6 +3,7 @@ import type { AuthMethod, AuthStep, IndicatorStepkey } from "./authSteps";
 
 export interface AuthState {
   isOpen: boolean;
+  isAuthenticated: boolean;
   step: AuthStep;
   data: AuthFormData;
   loading: boolean;

@@ -1,11 +1,17 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import SideBar from "@/components/SideBar";
+
+import { store } from "@/app/store";
 
 export const Route = createFileRoute("/_app")({
   beforeLoad: () => {
-    // auth guard — redirect to landing if not authenticated
-    // uncomment when auth is wired up
-    // if (!context.auth.user) throw redirect({ to: '/' })
+    // Global Auth Guard: Check Redux state OR persistent localStorage
+    const isAuth = store.getState().auth.isAuthenticated;
+    const hasToken = !!localStorage.getItem("access_token");
+
+    if (!isAuth && !hasToken) {
+      throw redirect({ to: '/' });
+    }
   },
   component: () => (
     <div className="flex min-h-screen bg-radial from-fuchsia-900 to-indigo-950">

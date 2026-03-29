@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAppDispatch } from "@/hooks/useAppHook";
-import { setStep, setIsOpen } from "../slice";
+import { setStep, loginSuccess } from "../slice";
 import { useNavigate } from "@tanstack/react-router";
 import { loginSchema, type LoginValues } from "../types/loginSchema";
 import { loginUser } from "../api/api";
@@ -49,8 +49,7 @@ const LoginStep = () => {
       // Simulate API delay
 
       // TODO: Handle successful login
-      // dispatch(loginSuccess(data));
-      dispatch(setIsOpen(false));
+      dispatch(loginSuccess());
       navigate({ to: "/browse" });
 
       console.log("Login successful!");
