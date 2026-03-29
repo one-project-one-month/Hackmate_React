@@ -1,6 +1,6 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
-import React from "react";
+
 import LoginStep from "../components/LoginStep";
 import SignUpStep from "../components/SignUpStep";
 import EmailVerificationStep from "../components/EmailVerificationStep";
@@ -26,7 +26,9 @@ const AuthPortal = () => {
       }}
     >
       <DialogContent className="sm:max-w-150 sm:max-h-150 aspect-square p-8 md:p-0 rounded-2xl md:rounded-full bg-zinc-600/40 backdrop-blur-2xl border-none flex justify-center items-center">
-        <div className="aspect-square flex justify-center items-center">
+        <DialogTitle className="sr-only">Authentication Portal</DialogTitle>
+        <DialogDescription className="sr-only">Sign in or create a new account to access the platform.</DialogDescription>
+        <div className="max-w-85 w-full h-full flex justify-center items-center">
           {step === "login" && <LoginStep />}
           {step === "signUpMethod" && <SignUpStep />}
           {step === "emailVerification" && <EmailVerificationStep />}

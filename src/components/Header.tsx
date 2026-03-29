@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Button } from "./ui/button";
 import { useAppDispatch } from "@/hooks/useAppHook";
 import { setIsOpen, setStep } from "@/features/auth/slice";

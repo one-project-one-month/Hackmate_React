@@ -9,8 +9,12 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { useAppDispatch } from "@/hooks/useAppHook";
+import { setStep } from "../slice";
 
 const ForgotPasswordStep = () => {
+  const dispatch = useAppDispatch()
+  
   const form = useForm({
     defaultValues: {
       email: "",
@@ -68,9 +72,9 @@ const ForgotPasswordStep = () => {
 
       <p className="mt-5 text-center text-sm text-gray-400">
         Don't have an account?{" "}
-        <a href="#" className="text-cyan-500 hover:text-cyan-400 font-medium">
+        <Button type="button" variant={"link"} onClick={() => dispatch(setStep("signUpMethod"))} className="no-underline hover:no-underline text-cyan-500 hover:text-cyan-400 font-medium">
           Signup here
-        </a>
+        </Button>
       </p>
     </div>
   );

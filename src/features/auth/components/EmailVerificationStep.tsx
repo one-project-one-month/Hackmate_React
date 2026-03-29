@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+
 
 const EmailVerificationStep = () => {
   const userEmail = "user@email.com";

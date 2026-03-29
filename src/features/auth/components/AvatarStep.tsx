@@ -7,14 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import useStepIndicator from "../hooks/useStepIndicator";
 import StepIndicator from "./StepIndicator";
+import { useAppDispatch } from "@/hooks/useAppHook";
+import { addCompletedSteps, setStep, updateData } from "../slice";
 
 interface AvatarFormValues {
   avatar: File | null;
 }
 
 const AvatarStep: React.FC = () => {
+
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const dispatch = useAppDispatch();
 
   const { shouldShow, activeSteps, currentStepKey } = useStepIndicator();
 
@@ -41,8 +46,16 @@ const AvatarStep: React.FC = () => {
     }
   };
 
-  const onSubmit = (data: AvatarFormValues) => {
-    console.log("Avatar Data:", data);
+  const onSubmit = () => {
+    dispatch(updateData({ avatar: preview }));
+    dispatch(addCompletedSteps("avatar"));
+    dispatch(setStep("nameRole"));
+  };
+
+  const handleSkip = () => {
+    dispatch(updateData({ avatar: null }));
+    dispatch(addCompletedSteps("avatar"));
+    dispatch(setStep("nameRole"));
   };
 
   return (
@@ -77,7 +90,7 @@ const AvatarStep: React.FC = () => {
           <FormField
             control={form.control}
             name="avatar"
-            render={({ field: { value, onChange, ...field } }) => (
+            render={({ field: { onChange, ...field } }) => (
               <FormItem>
                 <FormControl>
                   <div
@@ -118,8 +131,8 @@ const AvatarStep: React.FC = () => {
           <div className="w-full flex flex-col space-y-0">
             <button
               type="button"
-              className="text-zinc-200 text-xs hover:text-zinc-300 transition-colors"
-              onClick={() => console.log("Skipped")}
+              className="text-zinc-200 text-xs hover:text-zinc-300 transition-colors cursor-pointer"
+              onClick={() => handleSkip()}
             >
               Skip&gt;&gt;
             </button>
@@ -136,12 +149,12 @@ const AvatarStep: React.FC = () => {
 
       <p className="mt-4 text-center text-sm text-gray-400">
         Already have an account?{" "}
-        <a
-          href="#"
+        <button
+          onClick={() => dispatch(setStep("login"))}
           className="text-cyan-500 hover:text-cyan-400 font-medium transition-colors"
         >
           Sign in here
-        </a>
+        </button>
       </p>
     </div>
   );

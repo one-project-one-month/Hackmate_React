@@ -1,8 +1,8 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import SideBar from "@/components/SideBar";
 
 export const Route = createFileRoute("/_app")({
-  beforeLoad: ({ context }) => {
+  beforeLoad: () => {
     // auth guard — redirect to landing if not authenticated
     // uncomment when auth is wired up
     // if (!context.auth.user) throw redirect({ to: '/' })
