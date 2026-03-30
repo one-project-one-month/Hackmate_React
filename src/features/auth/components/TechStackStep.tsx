@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
-import { updateData, setStep, addCompletedSteps, setIsOpen } from "../slice";
+import { updateData, setStep, addCompletedSteps, loginSuccess } from "../slice";
 import { useNavigate } from "@tanstack/react-router";
 import useStepIndicator from "../hooks/useStepIndicator";
 import StepIndicator from "./StepIndicator";
@@ -49,7 +49,7 @@ export default function TechStackStep() {
     try {
       await registerUser(finalData as any);
       dispatch(addCompletedSteps("techStack"));
-      dispatch(setIsOpen(false));
+      dispatch(loginSuccess());
       navigate({ to: "/browse" });
     } catch (error) {
       console.error(error);

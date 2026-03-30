@@ -13,11 +13,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppProjectsRouteImport } from './routes/_app.projects'
-import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppNotiRouteImport } from './routes/_app.noti'
 import { Route as AppBrowseRouteImport } from './routes/_app.browse'
 import { Route as AppAddRouteImport } from './routes/_app.add'
+import { Route as AppProfileIndexRouteImport } from './routes/_app.profile.index'
 import { Route as AppProjectChatRouteImport } from './routes/_app.project.chat'
+import { Route as AppProfileEditRouteImport } from './routes/_app.profile.edit'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -38,11 +39,6 @@ const AppProjectsRoute = AppProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => AppRoute,
 } as any)
-const AppProfileRoute = AppProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppNotiRoute = AppNotiRouteImport.update({
   id: '/noti',
   path: '/noti',
@@ -58,9 +54,19 @@ const AppAddRoute = AppAddRouteImport.update({
   path: '/add',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProjectChatRoute = AppProjectChatRouteImport.update({
   id: '/project/chat',
   path: '/project/chat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileEditRoute = AppProfileEditRouteImport.update({
+  id: '/profile/edit',
+  path: '/profile/edit',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -70,9 +76,10 @@ export interface FileRoutesByFullPath {
   '/add': typeof AppAddRoute
   '/browse': typeof AppBrowseRoute
   '/noti': typeof AppNotiRoute
-  '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRoute
+  '/profile/edit': typeof AppProfileEditRoute
   '/project/chat': typeof AppProjectChatRoute
+  '/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -80,9 +87,10 @@ export interface FileRoutesByTo {
   '/add': typeof AppAddRoute
   '/browse': typeof AppBrowseRoute
   '/noti': typeof AppNotiRoute
-  '/profile': typeof AppProfileRoute
   '/projects': typeof AppProjectsRoute
+  '/profile/edit': typeof AppProfileEditRoute
   '/project/chat': typeof AppProjectChatRoute
+  '/profile': typeof AppProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +100,10 @@ export interface FileRoutesById {
   '/_app/add': typeof AppAddRoute
   '/_app/browse': typeof AppBrowseRoute
   '/_app/noti': typeof AppNotiRoute
-  '/_app/profile': typeof AppProfileRoute
   '/_app/projects': typeof AppProjectsRoute
+  '/_app/profile/edit': typeof AppProfileEditRoute
   '/_app/project/chat': typeof AppProjectChatRoute
+  '/_app/profile/': typeof AppProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -104,9 +113,10 @@ export interface FileRouteTypes {
     | '/add'
     | '/browse'
     | '/noti'
-    | '/profile'
     | '/projects'
+    | '/profile/edit'
     | '/project/chat'
+    | '/profile/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -114,9 +124,10 @@ export interface FileRouteTypes {
     | '/add'
     | '/browse'
     | '/noti'
-    | '/profile'
     | '/projects'
+    | '/profile/edit'
     | '/project/chat'
+    | '/profile'
   id:
     | '__root__'
     | '/'
@@ -125,9 +136,10 @@ export interface FileRouteTypes {
     | '/_app/add'
     | '/_app/browse'
     | '/_app/noti'
-    | '/_app/profile'
     | '/_app/projects'
+    | '/_app/profile/edit'
     | '/_app/project/chat'
+    | '/_app/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -166,13 +178,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/profile': {
-      id: '/_app/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AppProfileRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/noti': {
       id: '/_app/noti'
       path: '/noti'
@@ -194,11 +199,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAddRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/profile/': {
+      id: '/_app/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/project/chat': {
       id: '/_app/project/chat'
       path: '/project/chat'
       fullPath: '/project/chat'
       preLoaderRoute: typeof AppProjectChatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile/edit': {
+      id: '/_app/profile/edit'
+      path: '/profile/edit'
+      fullPath: '/profile/edit'
+      preLoaderRoute: typeof AppProfileEditRouteImport
       parentRoute: typeof AppRoute
     }
   }
@@ -208,18 +227,20 @@ interface AppRouteChildren {
   AppAddRoute: typeof AppAddRoute
   AppBrowseRoute: typeof AppBrowseRoute
   AppNotiRoute: typeof AppNotiRoute
-  AppProfileRoute: typeof AppProfileRoute
   AppProjectsRoute: typeof AppProjectsRoute
+  AppProfileEditRoute: typeof AppProfileEditRoute
   AppProjectChatRoute: typeof AppProjectChatRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAddRoute: AppAddRoute,
   AppBrowseRoute: AppBrowseRoute,
   AppNotiRoute: AppNotiRoute,
-  AppProfileRoute: AppProfileRoute,
   AppProjectsRoute: AppProjectsRoute,
+  AppProfileEditRoute: AppProfileEditRoute,
   AppProjectChatRoute: AppProjectChatRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
