@@ -1,29 +1,60 @@
 import { api } from "@/lib/axios";
-import { mockProjects } from "@/features/projects/mock";
 import type { Project } from "@/features/projects/types/projectModel";
+import type { CreateProjectValues } from "@/features/projects/types/createProjectSchema";
 
-const USE_MOCK = true;
-
-export const getProjects = async (): Promise<Project[]> => {
-  if (USE_MOCK) return mockProjects;
-  const response = await api.get("/projects");
-  return response.data;
+// Helper to robustly extract arrays from Laravel responses (handles pagination, wrapper objects, etc)
+const extractArray = (data: any): Project[] => {
+  if (Array.isArray(data)) return data;
+  if (data?.content && Array.isArray(data.content)) return data.content;
+  if (data?.content?.data && Array.isArray(data.content.data)) return data.content.data;
+  if (data?.data && Array.isArray(data.data)) return data.data;
+  return [];
 };
 
-export const getProjectById = async (
-  id: number,
-): Promise<Project | undefined> => {
-  if (USE_MOCK) return mockProjects.find((p) => p.id === id);
-  const response = await api.get(`/projects/${id}`);
-  return response.data;
+// Browse page feed — recommended projects
+export const getFeedProjects = async (): Promise<Project[]> => {
+  const response = await api.get("/feed");
+  return extractArray(response.data);
 };
 
+// My created projects
+export const getMyProjects = async (): Promise<Project[]> => {
+  const response = await api.get("/projects/own");
+  return extractArray(response.data);
+};
+
+// All projects (joined + created — for the "Joined" tab)
+export const getAllProjects = async (): Promise<Project[]> => {
+  try {
+    const response = await api.get("/projects");
+    return extractArray(response.data);
+  } catch (error) {
+    console.warn("Backend missing /projects route (ProjectController@index). Returning empty joined projects for now.");
+    return []; // Graceful fallback
+  }
+};
+
+// Like a project (metric for recommendation algo)
+export const likeProject = async (projectId: number): Promise<void> => {
+  await api.post("/feed/metric/like", { project_id: projectId });
+};
+
+// Dislike a project (metric for recommendation algo)
+export const dislikeProject = async (projectId: number): Promise<void> => {
+  await api.post("/feed/metric/dislike", { project_id: projectId });
+};
+
+// Apply/join a project (sends a join request)
 export const applyToProject = async (projectId: number): Promise<void> => {
-  if (USE_MOCK) return;
-  await api.post(`/projects/${projectId}/apply`);
+  await api.post(`/projects/${projectId}/join-requests`);
 };
 
-export const createProject = async (data: Partial<Project>): Promise<void> => {
-  if (USE_MOCK) return;
+// Delete a project
+export const deleteProject = async (projectId: number): Promise<void> => {
+  await api.delete(`/projects/${projectId}`);
+};
+
+// Create a project
+export const createProject = async (data: CreateProjectValues): Promise<void> => {
   await api.post("/projects", data);
 };

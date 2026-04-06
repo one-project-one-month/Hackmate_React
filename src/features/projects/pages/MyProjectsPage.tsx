@@ -1,21 +1,67 @@
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
-import ProjecAlertDialog from "../components/DeleteOrLeaveDialog";
 import ProjectList from "../components/ProjectList";
-import { setActiveAction } from "../slice";
+import DeleteOrLeaveDialog from "../components/DeleteOrLeaveDialog";
+import {
+  setActiveAction,
+  setMyProjects,
+  setJoinedProjects,
+  setProjectsLoading,
+  setProjectsError,
+  removeProject,
+} from "../slice";
+import { getMyProjects, getAllProjects, deleteProject } from "../api/api";
 
 // MyProjectsPage.tsx
 export default function MyProjectsPage() {
   const activeAction = useAppSelector((state) => state.projects.activeAction);
+  const selectedProject = useAppSelector(
+    (state) => state.projects.selectedProject
+  );
   const dispatch = useAppDispatch();
 
-  const handleConfirm = () => {
+  useEffect(() => {
+    const loadProjects = async () => {
+      dispatch(setProjectsLoading(true));
+      try {
+        const [owned, all] = await Promise.all([
+          getMyProjects(),
+          getAllProjects(),
+        ]);
+        dispatch(setMyProjects(owned));
+        // Joined projects = all projects minus the ones I created
+        const ownedIds = new Set(owned.map((p) => p.id));
+        const joined = all.filter((p) => !ownedIds.has(p.id));
+        dispatch(setJoinedProjects(joined));
+      } catch (err: any) {
+        dispatch(setProjectsError(err.message || "Failed to load projects"));
+        console.error("Projects fetch error:", err);
+      } finally {
+        dispatch(setProjectsLoading(false));
+      }
+    };
+    loadProjects();
+  }, [dispatch]);
+
+  const handleConfirm = async () => {
+    if (!selectedProject) {
+      dispatch(setActiveAction(null));
+      return;
+    }
+
     switch (activeAction) {
       case "delete":
-        console.log("deleteing");
+        try {
+          await deleteProject(selectedProject.id);
+          dispatch(removeProject(selectedProject.id));
+        } catch (err) {
+          console.error("Delete failed:", err);
+        }
         break;
 
       case "leave":
-        console.log("leaving");
+        // TODO: Implement leave project API when available
+        console.log("Leaving project:", selectedProject.id);
         break;
     }
     dispatch(setActiveAction(null));
@@ -35,8 +81,7 @@ export default function MyProjectsPage() {
       </div>
 
       <ProjectList />
-      {/* <ProjectList /> */}
-      <ProjecAlertDialog onConfirm={handleConfirm} />
+      <DeleteOrLeaveDialog onConfirm={handleConfirm} />
     </div>
   );
 }

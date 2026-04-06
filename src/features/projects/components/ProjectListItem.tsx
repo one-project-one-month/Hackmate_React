@@ -1,42 +1,45 @@
 import { useAppDispatch } from "@/hooks/useAppHook";
 import { Trash2, MessageSquare, Users, LogOut } from "lucide-react";
-import { setActiveAction } from "../slice";
-import type { ActionType } from "../types/projectModel";
+import { setActiveAction, setSelectedProject } from "../slice";
+import type { ActionType, Project } from "../types/projectModel";
 
 type ProjectListItemProps = {
-  title: string;
-  members: number;
-  image: string;
+  project: Project;
   actionType?: ActionType;
   onChat?: () => void;
 };
 
 export default function ProjectListItem({
-  title,
-  members,
-  image,
+  project,
   actionType,
   onChat,
 }: ProjectListItemProps) {
   const dispatch = useAppDispatch();
+
+  const handleAction = () => {
+    if (!actionType) return;
+    dispatch(setSelectedProject(project));
+    dispatch(setActiveAction(actionType));
+  };
+
   return (
     <div className="w-full flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-md p-2.5 sm:p-3 hover:bg-white/15 transition">
       {/* Left Section */}
       <div className="flex items-center gap-3 sm:gap-4 min-w-0">
         <img
-          src={image}
-          alt={title}
+          src={project.image_url || "/images/default.jpg"}
+          alt={project.title}
           className="w-16 h-10 sm:w-20 sm:h-12 rounded-md object-cover flex-shrink-0"
         />
 
         <div className="flex flex-col min-w-0">
           <h3 className="text-white text-sm sm:text-base font-semibold truncate">
-            {title}
+            {project.title}
           </h3>
 
           <div className="flex items-center gap-1 text-gray-300 text-xs sm:text-sm">
             <Users size={14} />
-            <span>{members} Members</span>
+            <span>{project.required_roles?.length || 0} Members</span>
           </div>
         </div>
       </div>
@@ -44,7 +47,7 @@ export default function ProjectListItem({
       {/* Right Section */}
       <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
         <button
-          onClick={() => actionType && dispatch(setActiveAction(actionType))}
+          onClick={handleAction}
           className="text-red-500 hover:text-red-400 transition"
         >
           {actionType === "delete" ? (
