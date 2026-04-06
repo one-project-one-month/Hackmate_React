@@ -14,7 +14,7 @@ export type Project = {
   is_active: boolean;
   like_count: number;
   dislike_count: number;
-  required_roles: ProjectRole[];
+  required_roles: (ProjectRole | string)[];
   created_at: string;
   updated_at: string;
 };

@@ -1,29 +1,33 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { Search, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import ProjectListItem from "./ProjectListItem";
 import DeleteOrLeaveDialog from "./DeleteOrLeaveDialog";
-import { mockProjects } from "../mock";
 import ProjectTabs from "./ProjectTab";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppHook";
+import { setSearchQuery } from "../slice";
 
 export default function ProjectList() {
-  const [selectedProject ] = useState<any>(null);
-  const [actionType] = useState<"delete" | "leave">("leave");
+  const dispatch = useAppDispatch();
+  const { myProjects, joinedProjects, activeTab, searchQuery, isLoading } =
+    useAppSelector((state) => state.projects);
 
-  // const handleActionClick = (project: any, type: "delete" | "leave") => {
-  //   setSelectedProject(project);
-  //   setActionType(type);
-  // };
+  // Pick the correct list based on the active tab
+  const activeProjects = activeTab === "created" ? myProjects : joinedProjects;
+
+  // Filter based on search query
+  const filteredProjects = useMemo(() => {
+    if (!searchQuery.trim()) return activeProjects;
+    const query = searchQuery.toLowerCase();
+    return activeProjects.filter(
+      (p) =>
+        p.title.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query)
+    );
+  }, [activeProjects, searchQuery]);
 
   const handleConfirm = () => {
-    if (!selectedProject) return;
-
-    if (actionType === "delete") {
-      console.log("Delete project:", selectedProject.id);
-    }
-
-    if (actionType === "leave") {
-      console.log("Leave project:", selectedProject.id);
-    }
-
+    // Handled by parent MyProjectsPage
   };
 
   return (
@@ -31,18 +35,47 @@ export default function ProjectList() {
       <div className="w-full p-3">
         <ProjectTabs />
       </div>
-      <div className="text-white">Search Bar component</div>
+
+      {/* Search Bar */}
+      <div className="w-full px-7">
+        <div className="relative">
+          <Search
+            size={16}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+          />
+          <Input
+            value={searchQuery}
+            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+            placeholder={`Search ${activeTab === "created" ? "created" : "joined"} projects...`}
+            className="pl-9 bg-white/5 border-zinc-600 text-zinc-200 placeholder:text-zinc-500 focus-visible:ring-cyan-500/50"
+          />
+        </div>
+      </div>
 
       <div className="flex flex-col gap-3 w-full h-115 p-7 overflow-y-auto custom-scrollbar">
-        {mockProjects.map((project) => (
-          <ProjectListItem
-            key={project.id}
-            title={project.title}
-            members={project.required_roles.length}
-            actionType="delete" //delete or leave
-            image={project.image_url || "/images/default.jpg"}
-          />
-        ))}
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="animate-spin text-cyan-400 w-8 h-8" />
+          </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full gap-2">
+            <p className="text-zinc-400 text-sm">
+              {searchQuery.trim()
+                ? "No projects match your search."
+                : activeTab === "created"
+                  ? "You haven't created any projects yet."
+                  : "You haven't joined any projects yet."}
+            </p>
+          </div>
+        ) : (
+          filteredProjects.map((project) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              actionType={activeTab === "created" ? "delete" : "leave"}
+            />
+          ))
+        )}
       </div>
 
       {/* Dynamic Alert Dialog */}
@@ -50,4 +83,3 @@ export default function ProjectList() {
     </div>
   );
 }
-// list of projects in projects tab

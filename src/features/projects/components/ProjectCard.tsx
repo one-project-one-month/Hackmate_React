@@ -1,21 +1,31 @@
+import { useAppSelector } from "@/hooks/useAppHook";
+import type { Project } from "../types/projectModel";
 import RoleTag from "./RoleTag";
+import { Loader2 } from "lucide-react";
 
 const ProjectCard = () => {
-  const project = {
-    type: "Mobile",
-    title: "Food Delivery Platform",
-    description:
-      "A seamless app connecting restaurants and customers, with fast ordering, real-time tracking, and secure payments. This platform is designed to scale efficiently while providing a premium user experience for both diners and restaurant staff, ensuring high performance across all mobile devices.",
-    github_repo: "https://github.com/username/floral-pos-system",
-    required_roles: [
-      { id: 1, label: "Designer" },
-      { id: 2, label: "Frontend" },
-      { id: 3, label: "Backend" },
-      { id: 4, label: "DevOps" },
-    ],
-    image_url:
-      "https://images.template.net/551106/Gradient-Background-edit-online.webp",
-  };
+  const { feedProjects, currentIndex, isLoading } = useAppSelector(
+    (state) => state.projects
+  );
+
+  const project: Project | undefined = feedProjects[currentIndex];
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-[620px] bg-[#121212] rounded-3xl border border-gray-800 flex items-center justify-center">
+        <Loader2 className="animate-spin text-cyan-400 w-10 h-10" />
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <div className="w-full h-[620px] bg-[#121212] rounded-3xl border border-gray-800 flex flex-col items-center justify-center gap-4">
+        <p className="text-zinc-400 text-xl">No more projects to browse!</p>
+        <p className="text-zinc-500 text-sm">Check back later for new projects.</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -24,7 +34,7 @@ const ProjectCard = () => {
       overflow-hidden shadow-2xl mx-auto"
     >
       <img
-        src={project.image_url}
+        src={project.image_url || "https://images.template.net/551106/Gradient-Background-edit-online.webp"}
         alt={project.title}
         className="w-full h-[150px] object-cover"
       />
@@ -39,23 +49,29 @@ const ProjectCard = () => {
           {project.description}
         </p>
 
-        <a
-          href={project.github_repo}
-          className="text-sm text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-6 py-3 rounded-full transition-all mb-10"
-        >
-          {project.github_repo}
-        </a>
+        {project.github_repo && (
+          <a
+            href={project.github_repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-6 py-3 rounded-full transition-all mb-10"
+          >
+            {project.github_repo}
+          </a>
+        )}
 
-        <div className="w-full border-t border-gray-800 pt-4">
-          <p className="text-center text-sm text-zinc-400 uppercase tracking-widest mb-6">
-            Required Role:
-          </p>
-          <div className="flex justify-center gap-4">
-            {project.required_roles.map((role) => (
-              <RoleTag role={role} />
-            ))}
+        {project.required_roles && project.required_roles.length > 0 && (
+          <div className="w-full border-t border-gray-800 pt-4">
+            <p className="text-center text-sm text-zinc-400 uppercase tracking-widest mb-6">
+              Required Role:
+            </p>
+            <div className="flex justify-center gap-4">
+              {project.required_roles.map((role) => (
+                <RoleTag key={typeof role === "string" ? role : role.id} role={role as any} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
